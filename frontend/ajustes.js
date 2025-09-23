@@ -6,7 +6,7 @@ if (!token) {
 }
 
 //URL PARA LA API
-const urlApi = "http://localhost:3000";
+const urlApi = "https://tienda-eyzc.onrender.com";
 
 //REFERENCIAS AL DOM EN UN OBJETO
 const DOM = {
