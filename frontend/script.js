@@ -72,21 +72,23 @@ const mostrarProductos = async (arrayProductos) => {
   try {
     if (arrayProductos.length > 0) {
       arrayProductos.forEach((producto) => {
-        const productoCard = document.createElement("div");
-        productoCard.className =
-          "bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow";
-        productoCard.innerHTML = `
-          <img src="${producto.imagenes?.[0]?.url || ""}" 
-               alt="${producto.nombre}" 
-               class="w-full h-48 object-cover cursor-pointer" 
-               data-product-id="${producto.id}">
-          <div class="p-4">
-            <h3 class="font-semibold text-lg mb-1">${producto.nombre}</h3>
-            <p class="text-gray-600 text-sm mb-2">${producto.categoria}</p>
-            <p class="text-blue-600 font-bold">S/ ${producto.precio}</p>
-          </div>`;
-        productosContainer.appendChild(productoCard);
-      });
+    const productoCard = document.createElement("div");
+    productoCard.className =
+      "bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow";
+
+    productoCard.innerHTML = `
+      <img src="${producto.imagenes?.[0]?.url || ""}" 
+           alt="${producto.nombre}" 
+           class="w-full h-48 object-contain bg-white cursor-pointer" 
+           data-product-id="${producto.id}">
+      <div class="p-4">
+        <h3 class="font-semibold text-lg mb-1">${producto.nombre}</h3>
+        <p class="text-gray-600 text-sm mb-2">${producto.categoria}</p>
+        <p class="text-blue-600 font-bold">S/ ${producto.precio}</p>
+      </div>`;
+
+    productosContainer.appendChild(productoCard);
+  });
 
       // Eventos para abrir detalle
       document.querySelectorAll("img[data-product-id]").forEach((element) => {

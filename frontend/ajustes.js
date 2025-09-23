@@ -1,8 +1,15 @@
 //SESIÓN Y VALIDACIONES
 const token = sessionStorage.getItem("authToken");
 if (!token) {
-  alert("No tienes sesión activa, inicia sesión primero");
-  window.location.href = "./index.html";
+  Swal.fire({
+    icon: 'warning',
+    title: 'Sesión requerida',
+    text: 'Inicia sesión primero',
+    confirmButtonText: 'Aceptar' 
+  }).then(() => {
+    window.location.href = "./index.html";
+  });
+  throw new Error("Sesión no válida");
 }
 
 //URL PARA LA API
@@ -205,8 +212,21 @@ const abrirFormularioImagen = async (id = null) => {
 
 // EVENTOS DE BOTONES
 DOM.btnLogout.addEventListener("click", () => {
-  sessionStorage.clear();
-  window.location.href = "./index.html";
+  Swal.fire({
+    title: 'Cerrar sesión',
+    text: '¿Estás seguro de que deseas salir?',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Sí, salir',
+    cancelButtonText: 'Cancelar'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      sessionStorage.clear();
+      window.location.href = "./index.html";
+    }
+  });
 });
 
 // Abrir modales
@@ -252,14 +272,25 @@ const delegarAcciones = (tabla, editarCb, eliminarCb) => {
 
 //FUNCION PARA ELIMINAR CATEGORIA, PRODUCTO O IMAGEN SEGUN SU ENDPOINT
 const eliminarItem = async (endpoint, id, tabla, mostrarTablaFn) => {
-  const singularNombres = {
-    categorias: "categoría",
-    productos: "producto",
-    imagenes: "imagen"
+  const nombres = {
+    categorias: { singular: "categoría", plural: "categorías" },
+    productos: { singular: "producto", plural: "productos" },
+    imagenes: { singular: "imagen", plural: "imágenes" }
   };
-  const nombreSingular = singularNombres[endpoint];
+  const nombre = nombres[endpoint];
 
-  if (!confirm(`¿Esta seguro que deseas eliminar esta ${nombreSingular} ?`)) return;
+  const result = await Swal.fire({
+    title: '¿Estás seguro?',
+    text: `Esta acción eliminará la ${nombre.singular} seleccionada`,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: 'Sí, eliminar',
+    cancelButtonText: 'Cancelar'
+  });
+
+  if (!result.isConfirmed) return;
 
   try {
     const response = await fetch(`${urlApi}/${endpoint}/${id}`, {
@@ -273,11 +304,21 @@ const eliminarItem = async (endpoint, id, tabla, mostrarTablaFn) => {
     const resultado = await response.json();
 
     if (!response.ok) {
-      alert(resultado.mensaje || `Error al eliminar ${endpoint}`);
+      await Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: resultado.mensaje || `Error al eliminar ${nombre.singular}`
+      });
       return;
     }
 
-    alert(resultado.mensaje);
+    await Swal.fire({
+      icon: 'success',
+      title: 'Eliminado',
+      text: `${nombre.singular} eliminada correctamente`,
+      timer: 1500,
+      showConfirmButton: false
+    });
 
     // refrescar la tabla
     tabla.innerHTML = "";
@@ -285,10 +326,13 @@ const eliminarItem = async (endpoint, id, tabla, mostrarTablaFn) => {
 
   } catch (err) {
     console.error(err);
-    alert("Ocurrió un error de conexión con el servidor");
+    await Swal.fire({
+      icon: 'error',
+      title: 'Error de conexión',
+      text: 'Ocurrió un error con el servidor'
+    });
   }
 };
-
 
 delegarAcciones(
   DOM.tablas.categorias,
@@ -331,22 +375,32 @@ DOM.formularios.categoria.addEventListener("submit", async (e) => {
     const result = await response.json();
 
     if (!response.ok) {
-      alert(result.message || "Error en la petición");
+      await Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: result.message || 'Error en la petición'
+      });
       return;
     }
 
-    if (id) {
-      alert(`Categoría modificada: ${result.nombre} con ID: ${result.id}`);
-    } else {
-      alert(`Categoría agregada: ${result.nombre} con ID: ${result.id}`);
-    }
+    await Swal.fire({
+      icon: 'success',
+      title: id ? 'Modificado' : 'Agregado',
+      text: id ? 'Categoría modificada' : 'Categoría agregada',
+      timer: 1500,
+      showConfirmButton: false
+    });
 
     cerrarModal(DOM.modales.categoria);
     DOM.tablas.categorias.innerHTML = "";
     await mostrarTablaCategorias();
   } catch (err) {
     console.error(err);
-    alert("Ocurrió un error de conexión con el servidor");
+    await Swal.fire({
+      icon: 'error',
+      title: 'Error de conexión',
+      text: 'Ocurrió un error con el servidor'
+    });
   }
 });
 
@@ -377,22 +431,32 @@ DOM.formularios.producto.addEventListener("submit", async (e) => {
     const result = await response.json();
 
     if (!response.ok) {
-      alert(result.message || "Error en la petición");
+      await Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: result.message || 'Error en la petición'
+      });
       return;
     }
 
-    if (id) {
-      alert(`Producto modificado: ${result.nombre} con ID: ${result.id}`);
-    } else {
-      alert(`Producto agregado: ${result.nombre} con ID: ${result.id}`);
-    }
+    await Swal.fire({
+      icon: 'success',
+      title: id ? 'Modificado' : 'Agregado',
+      text: id ? 'Producto modificado' : 'Producto agregado',
+      timer: 1500,
+      showConfirmButton: false
+    });
 
     cerrarModal(DOM.modales.producto);
     DOM.tablas.productos.innerHTML = "";
     await mostrarTablaProductos();
   } catch (err) {
     console.error(err);
-    alert("Ocurrió un error de conexión con el servidor");
+    await Swal.fire({
+      icon: 'error',
+      title: 'Error de conexión',
+      text: 'Ocurrió un error con el servidor'
+    });
   }
 });
 
@@ -421,22 +485,32 @@ DOM.formularios.imagen.addEventListener("submit", async (e) => {
     const result = await response.json();
 
     if (!response.ok) {
-      alert(result.message || "Error en la petición");
+      await Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: result.message || 'Error en la petición'
+      });
       return;
     }
 
-    if (id) {
-      alert(`Imagen modificada con ID: ${result.id}`);
-    } else {
-      alert("Imagen agregada");
-    }
+    await Swal.fire({
+      icon: 'success',
+      title: id ? 'Modificado' : 'Agregado',
+      text: id ? 'Imagen modificada' : 'Imagen agregada',
+      timer: 1500,
+      showConfirmButton: false
+    });
 
     cerrarModal(DOM.modales.imagen);
     DOM.tablas.imagenes.innerHTML = "";
     await mostrarTablaImagenes();
   } catch (err) {
     console.error(err);
-    alert("Ocurrió un error de conexión con el servidor");
+    await Swal.fire({
+      icon: 'error',
+      title: 'Error de conexión',
+      text: 'Ocurrió un error con el servidor'
+    });
   }
 });
 

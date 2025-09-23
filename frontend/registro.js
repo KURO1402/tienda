@@ -6,7 +6,7 @@ const inputConfirmacionClave = document.getElementById("confirm-password");
 //URL PARA LA API
 const urlApi = "https://tienda-eyzc.onrender.com";
 
-//Realizar fetch al endponit
+//Realizar fetch al endpoint
 registroFormulario.addEventListener("submit", async (e) => {
     e.preventDefault();
     const usuario = inputUsuario.value.trim();
@@ -24,23 +24,49 @@ registroFormulario.addEventListener("submit", async (e) => {
                     body: JSON.stringify({usuario: usuario, password: clave })
                 });
                 const data = await response.json();
-                alert(data.message);
+                
                 if(data.token){
+                    await Swal.fire({
+                        icon: 'success',
+                        title: '¡Registro exitoso!',
+                        text: 'Cuenta creada correctamente',
+                        timer: 1500,
+                        showConfirmButton: false
+                    });
+                    
                     sessionStorage.setItem("authToken", data.token);
                     sessionStorage.setItem("usuario", data.nombre);
                     window.location.href = "./ajustes.html";
+                } else {
+                    await Swal.fire({
+                        icon: 'error',
+                        title: 'Error en registro',
+                        text: data.message || 'No se pudo crear la cuenta'
+                    });
                 }
             } catch (err) {
-                console.log(err.message)
+                console.log(err.message);
+                await Swal.fire({
+                    icon: 'error',
+                    title: 'Error de conexión',
+                    text: 'No se pudo conectar con el servidor'
+                });
             }
         } else {
-            alert("Las contraseñas no coinciden");
+            await Swal.fire({
+                icon: 'warning',
+                title: 'Contraseñas no coinciden',
+                text: 'Las contraseñas deben ser iguales'
+            });
             inputClave.value = "";
             inputConfirmacionClave.value = "";
         }
     } else {
-        alert("Complete con datos validos");
+        await Swal.fire({
+            icon: 'warning',
+            title: 'Datos incompletos',
+            text: 'Completa todos los campos'
+        });
         registroFormulario.reset();
     }
-
-})
+});
