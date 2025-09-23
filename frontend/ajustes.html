@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - MiTienda</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="bg-gray-100 flex flex-col min-h-screen">
+    <!-- Header con navegación y usuario -->
+    <header class="bg-white shadow-md">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <h1 class="text-2xl font-bold text-blue-600">MiTienda</h1>
+                <div class="flex items-center space-x-4">
+                    <button id="agregar-categoria" class="px-3 py-2 bg-green-600 text-white rounded hover:bg-green-700 flex items-center text-sm">
+                        <i class="fas fa-plus mr-2"></i> Nueva Categoría
+                    </button>
+                    <button id="agregar-producto" class="px-3 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 flex items-center text-sm">
+                        <i class="fas fa-plus mr-2"></i> Nuevo Producto
+                    </button>
+                    <button id="agregar-imagen" class="px-3 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 flex items-center text-sm">
+                        <i class="fas fa-plus mr-2"></i> Nueva Imagen
+                    </button>
+                    <a href="./index.html" class="px-3 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 flex items-center text-sm">
+                        <i class="fas fa-book-open mr-2"></i> Ver Catálogo
+                    </a>
+                    <div class="flex items-center space-x-2 border-l pl-4">
+                        <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div>
+                            <p id="nombre-usuario" class="text-sm font-medium"></p>
+                            <button id="btn-logout" class="text-xs text-red-500 hover:text-red-700">Cerrar
+                                sesión</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8 flex-grow">
+        <!-- Sección de Categorías -->
+        <section id="categorias-section" class="mb-8">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold">Gestión de Categorías</h2>
+            </div>
+            <div class="bg-white rounded-lg shadow overflow-hidden">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                ID</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Nombre</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-categorias" class="bg-white divide-y divide-gray-200">
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Sección de Productos -->
+        <section id="productos-section" class="mb-8">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold">Gestión de Productos</h2>
+            </div>
+            <div class="bg-white rounded-lg shadow overflow-hidden">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                ID</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Nombre</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Categoría</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Precio</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-productos" class="bg-white divide-y divide-gray-200">
+
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Sección de Imágenes -->
+        <section id="imagenes-section">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold">Gestión de Imágenes</h2>
+            </div>
+            <div class="bg-white rounded-lg shadow overflow-hidden">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                ID</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Imagen</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Producto</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-imagenes" class="bg-white divide-y divide-gray-200">
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal para agregar categoría -->
+    <div id="agregar-categoria-modal"
+        class="hidden fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-lg shadow-xl max-w-md w-full max-h-screen overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-start mb-4">
+                    <h2 id="titulo-formulario-categoria" class="text-2xl font-bold"></h2>
+                    <button class="cerrar-btn text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                <form id="formulario-categoria">
+                    <input type="hidden" id="categoria-id">
+                    <div class="mb-4">
+                        <label for="categoria-nombre" class="block text-gray-700 mb-2">Nombre de la Categoría</label>
+                        <input type="text" id="categoria-nombre"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            required>
+                    </div>
+                    <div class="flex justify-end space-x-3">
+                        <button type="button" id="cancelar-categoria"
+                            class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">Cancelar</button>
+                        <button type="submit"
+                            class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para agregar producto -->
+    <div id="agregar-producto-modal"
+        class="hidden fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-lg shadow-xl max-w-md w-full max-h-screen overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-start mb-4">
+                    <h2 id="titulo-formulario-producto" class="text-2xl font-bold"></h2>
+                    <button class="cerrar-btn text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                <form id="formulario-producto">
+                    <input type="hidden" id="producto-id">
+                    <div class="mb-4">
+                        <label for="product-name" class="block text-gray-700 mb-2">Nombre del Producto</label>
+                        <input type="text" id="product-name"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="categoria-producto-select" class="block text-gray-700 mb-2">Categoría</label>
+                        <select id="categoria-producto-select"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            required>
+                            <!-- Las opciones se cargarán con JavaScript -->
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label for="product-price" class="block text-gray-700 mb-2">Precio</label>
+                        <input type="number" id="product-price" step="0.01" min="0"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="product-description" class="block text-gray-700 mb-2">Descripción</label>
+                        <textarea id="product-description" rows="4"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            required></textarea>
+                    </div>
+                    <div class="flex justify-end space-x-3">
+                        <button type="button" id="cancelar-producto"
+                            class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">Cancelar</button>
+                        <button type="submit"
+                            class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Modal para agregar imagen -->
+    <div id="agregar-imagen-modal"
+        class="hidden fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-lg shadow-xl max-w-md w-full max-h-screen overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-start mb-4">
+                    <h2 id="titulo-formulario-imagen" class="text-2xl font-bold"></h2>
+                    <button class="cerrar-btn text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                <form id="image-form">
+                    <input type="hidden" id="imagen-id">
+                    <div class="mb-4">
+                        <label for="imagen-producto-select" class="block text-gray-700 mb-2">Producto</label>
+                        <select id="imagen-producto-select"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            required>
+                            <!-- Las opciones se cargarán con JavaScript -->
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label for="image-url" class="block text-gray-700 mb-2">URL de la Imagen</label>
+                        <input type="url" id="image-url"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            required>
+                    </div>
+                    <div class="flex justify-end space-x-3">
+                        <button type="button" id="cancelar-imagen"
+                            class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">Cancelar</button>
+                        <button type="submit"
+                            class="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="./ajustes.js"></script>
+</body>
+
+</html>

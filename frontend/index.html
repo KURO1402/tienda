@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Productos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+</head>
+
+<body class="bg-gray-100 flex flex-col min-h-screen">
+    <!-- Header con navegación -->
+    <header class="bg-white shadow-md">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <h1 class="text-2xl font-bold text-blue-600">MiTienda</h1>
+
+                <!-- Bloque de login/registro -->
+                <nav id="nav-publico" class="flex items-center space-x-4">
+                    <a href="./login.html"
+                        class="px-3 py-2 bg-gray-700 text-white rounded hover:bg-gray-800 flex items-center text-sm">
+                        <i class="fas fa-sign-in-alt mr-2"></i> Iniciar Sesión
+                    </a>
+                    <a href="./registro.html"
+                        class="px-3 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600 flex items-center text-sm">
+                        <i class="fas fa-user-plus mr-2"></i> Registrarse
+                    </a>
+                </nav>
+
+                <!-- Bloque de usuario logueado -->
+                <div id="nav-privado" class="hidden flex items-center space-x-3">
+                    <!-- Avatar -->
+                    <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <!-- Info usuario -->
+                    <div>
+                        <p id="nombre-usuario" class="text-sm font-medium"></p>
+                        <div class="flex items-center space-x-2">
+                            <!-- Botón de ajustes -->
+                            <a href="./ajustes.html"
+                                class="text-xs text-gray-600 hover:text-gray-900 flex items-center">
+                                <i class="fas fa-cog mr-1"></i> Ajustes
+                            </a>
+                            <!-- Botón de logout -->
+                            <button id="btn-logout" class="text-xs text-red-500 hover:text-red-700">
+                                Cerrar sesión
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <!-- Filtros de categoría -->
+        <section class="mb-8">
+            <h2 class="text-xl font-semibold mb-4">Categorías</h2>
+            <div class="flex flex-wrap gap-2" id="categorias-container">
+                <button class="categoria-btn px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                    data-categoria="todos">
+                    Todos los productos
+                </button>
+            </div>
+        </section>
+
+        <!-- Lista de productos -->
+        <section>
+            <h2 class="text-xl font-semibold mb-4">Productos Disponibles</h2>
+            <div id="productos-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Los productos se cargarán aquí con JavaScript -->
+            </div>
+        </section>
+
+        <!-- Detalle del producto (inicialmente oculto) -->
+        <section id="detalle-producto"
+            class="hidden fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center p-4 z-50">
+            <div class="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-screen overflow-y-auto">
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 id="detail-title" class="text-2xl font-bold"></h2>
+                        <div class="flex gap-2 items-center">
+                            <button id="close-detail" class="text-gray-500 hover:text-gray-700 p-2">
+                                <i class="fas fa-times text-xl"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <div id="detail-images" class="swiper mySwiper mb-4">
+                                <div class="swiper-wrapper">
+                                  <!-- Las imágenes se agregarán aquí dinámicamente -->
+                                </div>
+                              
+                                <!-- Controles -->
+                                <div class="swiper-button-next"></div>
+                                <div class="swiper-button-prev"></div>
+                                <div class="swiper-pagination"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <p id="detail-category" class="text-gray-600 mb-2"></p>
+                            <p id="detail-description" class="text-gray-700 mb-4"></p>
+                            <p id="detail-price" class="text-2xl font-bold text-blue-600 mb-4"></p>
+                            <button class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
+                                Añadir al carrito
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+</body>
+
+</html>
