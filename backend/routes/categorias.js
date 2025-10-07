@@ -3,6 +3,47 @@ const router = express.Router();
 const db = require('../db');
 const verifyToken = require('../middleware/verifyToken');
 
+/**
+ * @swagger
+ * tags:
+ *   name: Categorías
+ *   description: Endpoints para gestionar las categorías
+ */
+
+/**
+ * @swagger
+ * /api/categorias:
+ *   get:
+ *     summary: Obtener todas las categorías
+ *     tags: [Categorías]
+ *     responses:
+ *       200:
+ *         description: Lista de categorías obtenida correctamente
+ */
+
+/**
+ * @swagger
+ * /api/categorias:
+ *   post:
+ *     summary: Crear una nueva categoría
+ *     security:
+ *       - bearerAuth: []
+ *     tags: [Categorías]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               nombre:
+ *                 type: string
+ *                 example: "Bebidas"
+ *     responses:
+ *       200:
+ *         description: Categoría creada correctamente
+ */
+
 // Obtener todas las categorías
 router.get('/', async (req, res) => {
     try {

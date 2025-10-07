@@ -5,6 +5,61 @@ const jwt = require("jsonwebtoken");
 
 const SECRET_KEY = "mi_secreto_ultra_seguro";
 
+/**
+ * @swagger
+ * tags:
+ *   name: Usuarios
+ *   description: Endpoints para autenticación de usuarios
+ */
+
+/**
+ * @swagger
+ * /api/usuarios/login:
+ *   post:
+ *     summary: Iniciar sesión
+ *     tags: [Usuarios]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               usuario:
+ *                 type: string
+ *                 example: admin
+ *               password:
+ *                 type: string
+ *                 example: 123456
+ *     responses:
+ *       200:
+ *         description: Login exitoso
+ */
+
+/**
+ * @swagger
+ * /api/usuarios/registro:
+ *   post:
+ *     summary: Registrar un nuevo usuario
+ *     tags: [Usuarios]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               usuario:
+ *                 type: string
+ *                 example: nuevo_user
+ *               password:
+ *                 type: string
+ *                 example: pass123
+ *     responses:
+ *       200:
+ *         description: Registro exitoso
+ */
+
 router.post("/login", async (req, res) => {
     // Obtenemos datos enviados en JSON
     const { usuario, password } = req.body;

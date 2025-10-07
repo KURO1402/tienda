@@ -3,6 +3,118 @@ const router = express.Router();
 const db = require('../db');
 const verifyToken = require('../middleware/verifyToken');
 
+/**
+ * @swagger
+ * tags:
+ *   name: Imágenes
+ *   description: Endpoints para gestionar imágenes de productos
+ */
+
+/**
+ * @swagger
+ * /api/imagenes:
+ *   get:
+ *     summary: Obtener todas las imágenes de todos los productos
+ *     tags: [Imágenes]
+ *     responses:
+ *       200:
+ *         description: Lista de imágenes obtenida correctamente
+ */
+
+/**
+ * @swagger
+ * /api/imagenes/{producto_id}:
+ *   get:
+ *     summary: Obtener imágenes de un producto específico
+ *     tags: [Imágenes]
+ *     parameters:
+ *       - in: path
+ *         name: producto_id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID del producto
+ *     responses:
+ *       200:
+ *         description: Lista de imágenes del producto
+ */
+
+/**
+ * @swagger
+ * /api/imagenes:
+ *   post:
+ *     summary: Agregar una imagen a un producto
+ *     security:
+ *       - bearerAuth: []
+ *     tags: [Imágenes]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               url:
+ *                 type: string
+ *                 example: "https://ejemplo.com/imagen.jpg"
+ *               producto_id:
+ *                 type: integer
+ *                 example: 1
+ *     responses:
+ *       200:
+ *         description: Imagen agregada correctamente
+ */
+
+/**
+ * @swagger
+ * /api/imagenes/{producto_id}:
+ *   put:
+ *     summary: Actualizar la URL de una imagen de producto
+ *     security:
+ *       - bearerAuth: []
+ *     tags: [Imágenes]
+ *     parameters:
+ *       - in: path
+ *         name: producto_id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID del producto
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               url:
+ *                 type: string
+ *                 example: "https://ejemplo.com/nueva-imagen.jpg"
+ *     responses:
+ *       200:
+ *         description: Imagen actualizada correctamente
+ */
+
+/**
+ * @swagger
+ * /api/imagenes/{id}:
+ *   delete:
+ *     summary: Eliminar una imagen por ID
+ *     security:
+ *       - bearerAuth: []
+ *     tags: [Imágenes]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID de la imagen a eliminar
+ *     responses:
+ *       200:
+ *         description: Imagen eliminada correctamente
+ */
+
 // Obtener imágenes de un producto
 router.get('/:producto_id', async (req, res) => {
     const { producto_id } = req.params;

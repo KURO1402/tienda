@@ -3,6 +3,56 @@ const router = express.Router();
 const db = require('../db');
 const verifyToken = require('../middleware/verifyToken');
 
+/**
+ * @swagger
+ * tags:
+ *   name: Productos
+ *   description: Endpoints para gestionar productos
+ */
+
+/**
+ * @swagger
+ * /api/productos:
+ *   get:
+ *     summary: Listar todos los productos con su categoría
+ *     tags: [Productos]
+ *     responses:
+ *       200:
+ *         description: Lista de productos
+ */
+
+/**
+ * @swagger
+ * /api/productos:
+ *   post:
+ *     summary: Crear un producto nuevo
+ *     security:
+ *       - bearerAuth: []
+ *     tags: [Productos]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               nombre:
+ *                 type: string
+ *                 example: "Pollo a la brasa"
+ *               descripcion:
+ *                 type: string
+ *                 example: "Delicioso pollo horneado con papas fritas"
+ *               precio:
+ *                 type: number
+ *                 example: 45.5
+ *               categoria_id:
+ *                 type: integer
+ *                 example: 2
+ *     responses:
+ *       200:
+ *         description: Producto creado correctamente
+ */
+
 // Obtener todos los productos con su categoría
 router.get('/', async (req, res) => {
     try {
