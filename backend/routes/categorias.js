@@ -44,6 +44,62 @@ const verifyToken = require('../middleware/verifyToken');
  *         description: Categoría creada correctamente
  */
 
+/**
+ * @swagger
+ * /api/categorias/{id}:
+ *   put:
+ *     summary: Actualizar una categoría existente
+ *     security:
+ *       - bearerAuth: []
+ *     tags: [Categorías]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID de la categoría a actualizar
+ *         schema:
+ *           type: integer
+ *           example: 3
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               nombre:
+ *                 type: string
+ *                 example: "Postres"
+ *     responses:
+ *       200:
+ *         description: Categoría actualizada correctamente
+ *       404:
+ *         description: Categoría no encontrada
+ */
+
+/**
+ * @swagger
+ * /api/categorias/{id}:
+ *   delete:
+ *     summary: Eliminar una categoría por ID
+ *     security:
+ *       - bearerAuth: []
+ *     tags: [Categorías]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID de la categoría a eliminar
+ *         schema:
+ *           type: integer
+ *           example: 3
+ *     responses:
+ *       200:
+ *         description: Categoría eliminada correctamente
+ *       404:
+ *         description: Categoría no encontrada
+ */
+
 // Obtener todas las categorías
 router.get('/', async (req, res) => {
     try {

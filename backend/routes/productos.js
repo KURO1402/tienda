@@ -53,6 +53,71 @@ const verifyToken = require('../middleware/verifyToken');
  *         description: Producto creado correctamente
  */
 
+/**
+ * @swagger
+ * /api/productos/{id}:
+ *   put:
+ *     summary: Actualizar un producto existente
+ *     security:
+ *       - bearerAuth: []
+ *     tags: [Productos]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID del producto a actualizar
+ *         schema:
+ *           type: integer
+ *           example: 5
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               nombre:
+ *                 type: string
+ *                 example: "Pollo al carbón"
+ *               descripcion:
+ *                 type: string
+ *                 example: "Pollo preparado a las brasas con guarnición"
+ *               precio:
+ *                 type: number
+ *                 example: 48.9
+ *               categoria_id:
+ *                 type: integer
+ *                 example: 3
+ *     responses:
+ *       200:
+ *         description: Producto actualizado correctamente
+ *       404:
+ *         description: Producto no encontrado
+ */
+
+/**
+ * @swagger
+ * /api/productos/{id}:
+ *   delete:
+ *     summary: Eliminar un producto por ID
+ *     security:
+ *       - bearerAuth: []
+ *     tags: [Productos]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID del producto a eliminar
+ *         schema:
+ *           type: integer
+ *           example: 5
+ *     responses:
+ *       200:
+ *         description: Producto eliminado correctamente
+ *       404:
+ *         description: Producto no encontrado
+ */
+
 // Obtener todos los productos con su categoría
 router.get('/', async (req, res) => {
     try {
