@@ -3,7 +3,7 @@ const inputUsuario = document.getElementById("usuario");
 const inputClave = document.getElementById("password");
 
 //URL PARA LA API
-const urlApi = "https://tienda-eyzc.onrender.com";
+const urlApi = "https://tienda-eyzc.onrender.com/api";
 
 //Realizar fetch al endpoint
 loginForm.addEventListener("submit", async (e) => {

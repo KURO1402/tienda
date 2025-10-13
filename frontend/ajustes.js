@@ -13,7 +13,7 @@ if (!token) {
 }
 
 //URL PARA LA API
-const urlApi = "https://tienda-eyzc.onrender.com";
+const urlApi = "https://tienda-eyzc.onrender.com/api";
 
 //REFERENCIAS AL DOM EN UN OBJETO
 const DOM = {

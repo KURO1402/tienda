@@ -18,7 +18,7 @@ const nombreUsuario = document.getElementById("nombre-usuario");
 const btnLogout = document.getElementById("btn-logout");
 
 //URL PARA LA API
-const urlApi = "https://tienda-eyzc.onrender.com";
+const urlApi = "https://tienda-eyzc.onrender.com/api";
 //FUNCIONES FETCH
 const obtenerData = async (tipo) => {
   try {

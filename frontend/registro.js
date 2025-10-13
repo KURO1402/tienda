@@ -4,7 +4,7 @@ const inputClave = document.getElementById("password");
 const inputConfirmacionClave = document.getElementById("confirm-password");
 
 //URL PARA LA API
-const urlApi = "https://tienda-eyzc.onrender.com";
+const urlApi = "https://tienda-eyzc.onrender.com/api";
 
 //Realizar fetch al endpoint
 registroFormulario.addEventListener("submit", async (e) => {
