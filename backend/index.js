@@ -7,9 +7,22 @@ const app = express();
 const PORT = 3000;
 
 // 🟢 Middlewares
-
 app.use(cors());
 app.use(bodyParser.json());
+
+// ➡️ Middleware para filtrar IPs
+const allowedIP = '45.232.149.130'; // Cambia esto
+
+app.use((req, res, next) => {
+  const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  const clientIP = ip.split(',')[0].trim();
+
+  if (clientIP === allowedIP) {
+    next();
+  } else {
+    res.status(403).json({ message: 'Acceso denegado: IP no autorizada' });
+  }
+});
 
 // 🟡 Rutas de documentación Swagger
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
