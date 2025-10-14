@@ -13,7 +13,7 @@ app.use(cors({
   origin: allowedOrigin
 }));
 app.use(bodyParser.json());
-
+/*
 // ➡️ Middleware para filtrar IPs
 const allowedIPs = ['45.232.149.130', '45.232.149.146', '45.232.149.145', '179.6.75.77'];
 
@@ -28,7 +28,7 @@ app.use((req, res, next) => {
   } else {
     res.status(403).json({ message: 'Acceso denegado: IP no permitida' });
   }
-});
+});*/
 
 // 🟡 Rutas de documentación Swagger
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
