@@ -7,18 +7,24 @@ const app = express();
 const PORT = 3000;
 
 // 🟢 Middlewares
-const allowedOrigin = 'http://45.232.149.146'; // IP que quieres permitir (usa protocolo http/https si aplica)
+const allowedOrigins = [
+  'https://tienda-seven-ruby.vercel.app', // tu frontend en producción
+  'http://localhost:5500', // Live Server local
+  'http://127.0.0.1:5500' // alternativa de Live Server
+];
 
 app.use(cors({
-  origin: function(origin, callback){
-    if(!origin) return callback(null, false); // bloquear si no hay origin
-    if(origin === allowedOrigin){
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true); // permite Postman o curl sin 'origin'
+    if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
+      console.log('Bloqueado por CORS:', origin);
       callback(new Error('Not allowed by CORS'));
     }
-  }
-}));;
+  },
+  credentials: true,
+}));
 app.use(bodyParser.json());
 
 // 🟡 Rutas de documentación Swagger
