@@ -6,12 +6,16 @@ const { swaggerUi, swaggerDocs } = require('./config/swagger');
 const app = express();
 const PORT = 3000;
 
+const allowedOrigin = "https://tienda-seven-ruby.vercel.app"
+
 // 🟢 Middlewares
-app.use(cors());
+app.use(cors({
+  origin: allowedOrigin
+}));
 app.use(bodyParser.json());
 
 // ➡️ Middleware para filtrar IPs
-const allowedIP = '45.232.149.130'; // Cambia esto
+const allowedIPs = ['45.232.149.130', '45.232.149.146', '45.232.149.145'];
 
 app.use((req, res, next) => {
   let clientIP = req.headers['x-forwarded-for'] || req.ip || req.connection.remoteAddress;
@@ -19,7 +23,7 @@ app.use((req, res, next) => {
     clientIP = clientIP.split(',')[0].trim();
   }
 
-  if (clientIP === allowedIP) {
+  if (clientIP.includes(allowedIPs)) {
     next();
   } else {
     res.status(403).json({ message: 'Acceso denegado: IP no permitida' });
