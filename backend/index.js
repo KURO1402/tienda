@@ -7,7 +7,18 @@ const app = express();
 const PORT = 3000;
 
 // 🟢 Middlewares
-app.use(cors());
+const allowedOrigin = 'http://45.232.149.146'; // IP que quieres permitir (usa protocolo http/https si aplica)
+
+app.use(cors({
+  origin: function(origin, callback){
+    if(!origin) return callback(null, false); // bloquear si no hay origin
+    if(origin === allowedOrigin){
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+}));;
 app.use(bodyParser.json());
 
 // 🟡 Rutas de documentación Swagger
