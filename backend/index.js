@@ -15,7 +15,7 @@ app.use(cors({
 app.use(bodyParser.json());
 
 // ➡️ Middleware para filtrar IPs
-const allowedIPs = ['45.232.149.130', '45.232.149.146', '45.232.149.145'];
+const allowedIPs = ['45.232.149.130', '45.232.149.146', '45.232.149.145', '179.6.75.77'];
 
 app.use((req, res, next) => {
   let clientIP = req.headers['x-forwarded-for'] || req.ip || req.connection.remoteAddress;
