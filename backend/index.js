@@ -14,13 +14,15 @@ app.use(bodyParser.json());
 const allowedIP = '45.232.149.130'; // Cambia esto
 
 app.use((req, res, next) => {
-  const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-  const clientIP = ip.split(',')[0].trim();
+  let clientIP = req.headers['x-forwarded-for'] || req.ip || req.connection.remoteAddress;
+  if (clientIP && clientIP.includes(',')) {
+    clientIP = clientIP.split(',')[0].trim();
+  }
 
   if (clientIP === allowedIP) {
     next();
   } else {
-    res.status(403).json({ message: 'Acceso denegado: IP no autorizada' });
+    res.status(403).json({ message: 'Acceso denegado: IP no permitida' });
   }
 });
 
