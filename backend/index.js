@@ -19,11 +19,17 @@ const allowedIPs = ['45.232.149.130', '45.232.149.146', '45.232.149.145'];
 
 app.use((req, res, next) => {
   let clientIP = req.headers['x-forwarded-for'] || req.ip || req.connection.remoteAddress;
+  
   if (clientIP && clientIP.includes(',')) {
     clientIP = clientIP.split(',')[0].trim();
   }
 
-  if (clientIP.includes(allowedIPs)) {
+  // Normalizar formato IPv6
+  clientIP = clientIP.replace('::ffff:', '');
+
+  console.log("IP del cliente:", clientIP);
+
+  if (allowedIPs.includes(clientIP)) {
     next();
   } else {
     res.status(403).json({ message: 'Acceso denegado: IP no permitida' });
